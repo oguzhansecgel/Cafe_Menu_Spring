@@ -1,8 +1,10 @@
 package com.cafemmenu.Controller;
 
+import com.cafemmenu.Dtos.ProductDto.CreateProductDto;
 import com.cafemmenu.Entities.Product;
 import com.cafemmenu.Services.ProductServices.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductServiceImpl productService;
+    private final ModelMapper modelMapper;
 
     @GetMapping("/getAll")
     public List<Product> getAllProduct() {
@@ -40,9 +43,10 @@ public class ProductController {
         return productService.getProductFindTop5ByOrderByPriceAsc();
     }
     @PostMapping("/CreateProduct")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product)
+    public CreateProductDto createProduct(@RequestBody CreateProductDto createProductDto)
     {
-        return productService.createProduct(product);
+        Product product = modelMapper.map(createProductDto,Product.class);
+        return createProductDto;
     }
     @PutMapping("/UpdateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product)

@@ -1,9 +1,10 @@
 package com.cafemmenu.Controller;
 
-import com.cafemmenu.Entities.About;
+import com.cafemmenu.Dtos.CategoryDto.CreateCategoryDto;
 import com.cafemmenu.Entities.Category;
 import com.cafemmenu.Services.CategoryServices.CategoryServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryServiceImpl categoryService;
+    private final ModelMapper modelMapper;
 
     @GetMapping("getALL")
     public List<Category> getAllCategory()
@@ -26,9 +28,10 @@ public class CategoryController {
         return categoryService.getByIdCategory(id);
     }
     @PostMapping("/createCategory")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category)
+    public CreateCategoryDto createCategory(@RequestBody CreateCategoryDto createCategoryDto)
     {
-        return categoryService.createCategory(category);
+        Category category = modelMapper.map(createCategoryDto,Category.class);
+        return createCategoryDto;
     }
     @DeleteMapping("/deleteCategory")
     public ResponseEntity<Category> deleteCategory(@RequestParam Long id){return categoryService.deleteCategory(id);}
