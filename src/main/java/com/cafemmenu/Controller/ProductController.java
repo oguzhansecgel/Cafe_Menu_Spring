@@ -43,10 +43,11 @@ public class ProductController {
         return productService.getProductFindTop5ByOrderByPriceAsc();
     }
     @PostMapping("/CreateProduct")
-    public CreateProductDto createProduct(@RequestBody CreateProductDto createProductDto)
+    public ResponseEntity<String> createProduct(@RequestBody CreateProductDto createProductDto)
     {
         Product product = modelMapper.map(createProductDto,Product.class);
-        return createProductDto;
+        productService.createProduct(product);
+        return ResponseEntity.ok("Başarılı");
     }
     @PutMapping("/UpdateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product)

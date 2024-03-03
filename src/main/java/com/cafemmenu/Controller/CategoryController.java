@@ -28,10 +28,11 @@ public class CategoryController {
         return categoryService.getByIdCategory(id);
     }
     @PostMapping("/createCategory")
-    public CreateCategoryDto createCategory(@RequestBody CreateCategoryDto createCategoryDto)
+    public ResponseEntity<String> createCategory(@RequestBody CreateCategoryDto createCategoryDto)
     {
         Category category = modelMapper.map(createCategoryDto,Category.class);
-        return createCategoryDto;
+        categoryService.createCategory(category);
+        return ResponseEntity.ok("başarılı");
     }
     @DeleteMapping("/deleteCategory")
     public ResponseEntity<Category> deleteCategory(@RequestParam Long id){return categoryService.deleteCategory(id);}
